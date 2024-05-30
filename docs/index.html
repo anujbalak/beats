@@ -7,6 +7,7 @@
     <style>
         body {
             background-color: #2c262c;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif   ;
         }
         .divContainer {
             display: flex;
@@ -16,38 +17,87 @@
         .div {
             border: solid 1px #625b65;
             margin: 5px;
-            width: 90px;
-            height: 90px;
         }
-    </style>
+
+        #warning {
+            text-align: center;
+            color: #ff6363;
+            font-size: 30px;
+        }
+
+        button {
+            background-color: #625b65;
+            font-size: 30px;
+            padding: 20px;
+            box-shadow: none;
+            text-align: center;
+            color: white;
+        }
+        </style>
 </head>
 <body>
     <script>
         const body = document.querySelector('body');
         const divContainer = document.createElement('div');
         divContainer.className = 'divContainer';
+        const header = document.createElement('header');
+        const newGrids = document.createElement('div');
+        const button = document.createElement('button');
+        const warning= document.createElement('div')
+        warning.id = 'warning'
+        body.appendChild(header);
+        header.appendChild(newGrids);
+        newGrids.appendChild(button);
         body.appendChild(divContainer);
+        button.textContent = 'New Grid';
+        
+        let n = 10;
 
-        let n = 16;
-
-        for (let i = 1; i <= n * n; i++) {
-            const div = document.createElement('div');
-            divContainer.appendChild(div);
-            div.className = 'div';
-            const colors = ['#50397d', '#3d4096', '#344c71'];
-            const randomColorIndex = Math.floor(Math.random() * 3);
-            const randomColor = colors[randomColorIndex];
-            div.addEventListener('mouseover', (e) => {
-                e.target.style.backgroundColor = randomColor;
-            })
-
-            div.addEventListener('mouseleave', (e) => {
-                setTimeout(() => {
-                    e.target.style.backgroundColor = '';
-                }, 100);
-            })
+        function grid() {
+            if (n <= 100) {
+                for (let i = 1; i <= n * n; i++) {
+                    const div = document.createElement('div');
+                    divContainer.appendChild(div);
+                    div.className = 'div';
+                    let pad = 42/n;
+                    let divSize = div.style.padding = `${pad}%`;
+                    console.log(divSize);
+                    /* another way for random colors                         
+                    const colors = ['#50397d', '#3d4096', '#344c71', '#625b65'];
+                    const randomColorIndex = Math.floor(Math.random() * 4);
+                    const randomColor = colors[randomColorIndex];
+                    */
+                   
+                   div.addEventListener('mouseover', (e) => {
+                       let randomNumberList = [];
+                       for (let x = 0; x <= 255; x++) {
+                           randomNumberList.push(x);
+                        }
+                        let randomFirstValueIndex = Math.floor(Math.random() * randomNumberList.length);
+                        let randomSecondValueIndex = Math.floor(Math.random() * randomNumberList.length);
+                        let randomThirdValueIndex = Math.floor(Math.random() * randomNumberList.length);
+                        let firstValue = randomNumberList[randomFirstValueIndex];
+                        let secondValue = randomNumberList[randomSecondValueIndex];
+                        let thirdValue = randomNumberList[randomThirdValueIndex];
+                        let randomColorInRGB = `rgb(${firstValue} ${secondValue} ${thirdValue})`;
+                        e.target.style.backgroundColor = randomColorInRGB;
+                    })
+                    div.addEventListener('mouseleave', (e) => {
+                        setTimeout(() => {
+                            e.target.style.backgroundColor = '';
+                        }, 100);
+                    })
+                }
+            } else {
+                divContainer.appendChild(warning);
+                warning.textContent = 'Enter less then 100 or enter number only';
+            }
         }
-
-    </script>
+        button.addEventListener('click', () => {
+            n = prompt('Enter new grid size (less then 100) ');
+            grid();
+            console.log(n);
+        })
+        </script>
 </body>
 </html>
