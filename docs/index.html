@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etch-a-Sketch</title>
+    <style>
+        body {
+            background-color: #2c262c;
+        }
+        .divContainer {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .div {
+            border: solid 1px #625b65;
+            margin: 5px;
+            width: 90px;
+            height: 90px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const body = document.querySelector('body');
+        const divContainer = document.createElement('div');
+        divContainer.className = 'divContainer';
+        body.appendChild(divContainer);
+
+        let n = 16;
+
+        for (let i = 1; i <= n * n; i++) {
+            const div = document.createElement('div');
+            divContainer.appendChild(div);
+            div.className = 'div';
+            const colors = ['#50397d', '#3d4096', '#344c71'];
+            const randomColorIndex = Math.floor(Math.random() * 3);
+            const randomColor = colors[randomColorIndex];
+            div.addEventListener('mouseover', (e) => {
+                e.target.style.backgroundColor = randomColor;
+            })
+
+            div.addEventListener('mouseleave', (e) => {
+                setTimeout(() => {
+                    e.target.style.backgroundColor = '';
+                }, 100);
+            })
+        }
+
+    </script>
+</body>
+</html>
